@@ -1,110 +1,110 @@
 # 🌊 Underwater Simulator · BlueROV2
 
-Simulador **visual** de robótica marina hecho con [Three.js](https://threejs.org/).
-Pilota un **BlueROV2** con movimiento **holonómico en los 6 grados de libertad**
-dentro de un ambiente submarino realista. Pensado para desplegarse gratis en la web
-y ser accesible desde cualquier navegador.
+A **visual** marine robotics simulator built with [Three.js](https://threejs.org/).
+Pilot a **BlueROV2** with **holonomic 6-DOF motion** inside a realistic underwater
+environment. Designed to be deployed for free on the web and accessible from any
+browser.
 
-No resuelve hidrodinámica exacta: usa una física "de sensación" (inercia + arrastre
-del agua) para que el manejo se sienta creíble sin cálculos pesados.
+It does not solve exact hydrodynamics: it uses a "feel-based" physics model
+(inertia + water drag) so that handling feels believable without heavy computation.
 
-![captura](docs/preview.png)
+![screenshot](docs/preview.png)
 
-## ✨ Características
+## ✨ Features
 
-- **Modelo BlueROV2 real**: geometría CAD del vehículo (STL → GLB decimado a ~272k
-  triángulos, ~4.9 MB) coloreada por regiones con los colores reales (frame negro
-  HDPE, espuma de flotación azul, carcasas y thrusters). Ver
+- **Real BlueROV2 model**: the vehicle's CAD geometry (STL → GLB decimated to ~272k
+  triangles, ~4.9 MB) colored by region with the real colors (black HDPE frame,
+  blue buoyancy foam, enclosures and thrusters). See
   [`src/robot/BlueROV2Model.js`](src/robot/BlueROV2Model.js).
-- **Movimiento holonómico 6-DOF**: surge, sway, heave, yaw, pitch y roll independientes.
-- **Física sencilla**: aceleración en el marco del cuerpo, arrastre viscoso, flotación
-  neutra y auto-enderezamiento pasivo. Todos los parámetros son fáciles de tunear en
+- **Holonomic 6-DOF motion**: independent surge, sway, heave, yaw, pitch and roll.
+- **Simple physics**: body-frame acceleration, viscous drag, neutral buoyancy and
+  passive self-righting. All parameters are easy to tune in
   [`src/physics/VehiclePhysics.js`](src/physics/VehiclePhysics.js).
-- **Ambiente submarino rico**: niebla por profundidad, lecho marino con relieve,
-  cáusticas animadas, partículas en suspensión, rayos de luz, rocas y superficie del agua.
-- **HUD de telemetría**: profundidad, rumbo (con brújula), cabeceo/alabeo, velocidad y posición.
-- **Cámara conmutable**: orbital externa ⟷ primera persona (piloto).
-- **Focos del ROV** encendibles con conos de luz visibles y **burbujas** en los thrusters.
+- **Rich underwater environment**: depth-based fog, textured seabed with relief,
+  animated caustics, suspended particles, light shafts, rocks and a water surface.
+- **Telemetry HUD**: depth, heading (with compass), pitch/roll, speed and position.
+- **Switchable camera**: external orbital ⟷ first-person (pilot) view.
+- **ROV lights** you can toggle, with visible light cones, and **bubbles** at the
+  thrusters.
 
-## 🎮 Controles
+## 🎮 Controls
 
-| Tecla | Acción |
-|-------|--------|
-| `W` / `S` | Avance / retroceso (surge) |
-| `A` / `D` | Desplazamiento lateral (sway) |
-| `R` / `F` | Ascenso / descenso (heave) |
-| `Q` / `E` | Guiñada izquierda / derecha (yaw) |
-| `↑` / `↓` | Cabeceo morro abajo / arriba (pitch) |
-| `←` / `→` | Alabeo izquierda / derecha (roll) |
-| `L` | Encender / apagar focos |
-| `C` | Cambiar cámara (orbital / piloto) |
-| `H` | Mostrar / ocultar la ayuda |
-| Ratón | Arrastrar para orbitar · rueda para zoom (modo orbital) |
+| Key | Action |
+|-----|--------|
+| `W` / `S` | Forward / backward (surge) |
+| `A` / `D` | Strafe left / right (sway) |
+| `R` / `F` | Ascend / descend (heave) |
+| `Q` / `E` | Yaw left / right |
+| `↑` / `↓` | Pitch nose down / up |
+| `←` / `→` | Roll left / right |
+| `L` | Toggle lights |
+| `C` | Switch camera (orbital / pilot) |
+| `H` | Show / hide help |
+| Mouse | Drag to orbit · wheel to zoom (orbital mode) |
 
-Las teclas se combinan libremente (movimiento holonómico). El mapeo está centralizado
-en [`src/controls/KeyboardController.js`](src/controls/KeyboardController.js).
+Keys can be combined freely (holonomic motion). The mapping is centralized in
+[`src/controls/KeyboardController.js`](src/controls/KeyboardController.js).
 
-## 🚀 Uso local
+## 🚀 Local usage
 
-Requiere **Node.js 18+**.
+Requires **Node.js 18+**.
 
 ```bash
 npm install
-npm run dev        # servidor de desarrollo (abre la URL que imprime Vite)
+npm run dev        # dev server (open the URL Vite prints)
 ```
 
-Para generar el build de producción:
+To create the production build:
 
 ```bash
-npm run build      # genera dist/
-npm run preview    # sirve dist/ localmente para probar
+npm run build      # generates dist/
+npm run preview    # serves dist/ locally for testing
 ```
 
-## 🌐 Despliegue gratis
+## 🌐 Free deployment
 
-El proyecto es **100% estático** (sin backend). El `dist/` se puede subir a cualquier
-hosting estático.
+The project is **100% static** (no backend). The `dist/` folder can be uploaded to
+any static host.
 
-### GitHub Pages (incluido)
+### GitHub Pages (included)
 
 ```bash
-npm run deploy     # build + publica dist/ en la rama gh-pages
+npm run deploy     # build + publish dist/ to the gh-pages branch
 ```
 
-Luego, en el repositorio de GitHub → **Settings → Pages**, selecciona la rama
-`gh-pages`. `vite.config.js` usa `base: './'`, así que funciona en el subpath de Pages
-sin configuración extra.
+Then, in the GitHub repository → **Settings → Pages**, select the `gh-pages` branch.
+`vite.config.js` uses `base: './'`, so it works on the Pages subpath with no extra
+configuration.
 
-### Netlify / Vercel / otros
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) is also included to build
+and publish automatically on every push — just set **Settings → Pages → Source** to
+"GitHub Actions".
 
-- Arrastra la carpeta `dist/` a [Netlify Drop](https://app.netlify.com/drop), **o**
-- conecta el repositorio con build command `npm run build` y publish directory `dist`.
+### Netlify / Vercel / others
 
-## 🗂️ Estructura
+- Drag the `dist/` folder onto [Netlify Drop](https://app.netlify.com/drop), **or**
+- connect the repository with build command `npm run build` and publish directory `dist`.
+
+## 🗂️ Structure
 
 ```
 src/
-  main.js                 Bootstrap: renderer, escena, env map, bucle de animación
-  scene/                  Océano, iluminación, cáusticas, partículas, gradiente
-  robot/BlueROV2Model.js  Carga el GLB real, colorea por regiones, luces, burbujas
-  assets/bluerov2.glb     Modelo CAD del BlueROV2 (decimado)
-  physics/VehiclePhysics  Cinemática 6-DOF holonómica (parámetros tuneables)
-  controls/               Teclado y rig de cámara (orbital / FPV)
-  ui/                     HUD de telemetría y overlay de ayuda
-  utils/noise.js          Ruido simplex (lecho, cáusticas, arena) — sin dependencias
+  main.js                 Bootstrap: renderer, scene, env map, animation loop
+  scene/                  Ocean, lighting, caustics, particles, depth gradient
+  robot/BlueROV2Model.js  Loads the real GLB, colors by region, lights, bubbles
+  assets/bluerov2.glb     BlueROV2 CAD model (decimated)
+  physics/VehiclePhysics  Holonomic 6-DOF kinematics (tunable parameters)
+  controls/               Keyboard and camera rig (orbital / FPV)
+  ui/                     Telemetry HUD and help overlay
+  utils/noise.js          Simplex noise (seabed, caustics, sand) — no dependencies
 ```
 
-> El GLB se generó a partir del STL de SolidWorks del usuario (`docs/*.STL`),
-> decimado con `fast-simplification` y exportado con `trimesh`. Los archivos CAD
-> fuente son muy pesados y están excluidos del repositorio (ver `.gitignore`).
+## 🔧 Ideas to extend
 
-## 🔧 Ideas para extender
+- Ocean currents that push the vehicle.
+- Mission objects (rings, pipes) and a timer to practice piloting.
+- Gamepad/joystick support reusing the normalized 6-DOF input state.
 
-- Cargar un modelo `.glb` real del BlueROV2 (la estructura ya aísla el modelo).
-- Corrientes marinas que empujen al vehículo.
-- Objetos de misión (aros, tuberías) y cronómetro para practicar pilotaje.
-- Soporte de gamepad/joystick reutilizando el estado normalizado de 6-DOF.
-
-## 📄 Licencia
+## 📄 License
 
 MIT.
