@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+.vite/
+
+# Archivos CAD fuente del BlueROV2 (muy pesados). El modelo usado por el
+# simulador es el GLB decimado en src/assets/bluerov2.glb.
+docs/*.STL
+docs/*.SLDPRT

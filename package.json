@@ -1,0 +1,21 @@
+{
+  "name": "underwater-simulator",
+  "version": "1.0.0",
+  "description": "Simulador visual de robótica marina (BlueROV2) con movimiento holonómico 6-DOF en un ambiente submarino realista.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "keywords": ["auv", "rov", "bluerov2", "underwater", "simulator", "three.js", "robotics"],
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1",
+    "vite": "^5.0.0"
+  }
+}
